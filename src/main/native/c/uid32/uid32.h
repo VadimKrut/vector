@@ -7,7 +7,8 @@
 extern "C" {
 #endif
 
-    const uint8_t* generate_uid32();
+void set_machine_id(uint32_t id);
+void generate_uid32_into(uint8_t* dst);
 
 #ifdef __cplusplus
 }
