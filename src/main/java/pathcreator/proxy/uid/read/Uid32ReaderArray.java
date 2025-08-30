@@ -23,34 +23,34 @@ public final class Uid32ReaderArray {
     }
 
     // точечные геттеры
-    public static long tsc(byte[] a, int off) {
+    public static long tsc(final byte[] a, final int off) {
         return getLongLE(a, off + OFF_TSC);
     }
 
-    public static long stackPtr(byte[] a, int off) {
+    public static long stackPtr(final byte[] a, final int off) {
         return getLongLE(a, off + OFF_STACK);
     }
 
-    public static int machineId(byte[] a, int off) {
+    public static int machineId(final byte[] a, final int off) {
         return getIntLE(a, off + OFF_MACHINE);
     }
 
-    public static int coreId(byte[] a, int off) {
+    public static int coreId(final byte[] a, final int off) {
         return getIntLE(a, off + OFF_CORE);
     }
 
-    public static int tid(byte[] a, int off) {
+    public static int tid(final byte[] a, final int off) {
         return getIntLE(a, off + OFF_TID);
     }
 
-    public static int mix(byte[] a, int off) {
+    public static int mix(final byte[] a, final int off) {
         return getIntLE(a, off + OFF_MIX);
     }
 
     /**
      * Разбор всех полей без проверки.
      */
-    public static void readInto(byte[] a, int off, Uid32Fields out) {
+    public static void readInto(final byte[] a, final int off, final Uid32Fields out) {
         out.tsc = getLongLE(a, off + OFF_TSC);
         out.stackPtr = getLongLE(a, off + OFF_STACK);
         out.machineId = getIntLE(a, off + OFF_MACHINE);
@@ -62,7 +62,7 @@ public final class Uid32ReaderArray {
     /**
      * Проверка {@code mix} без разборки.
      */
-    public static boolean verify(byte[] a, int off) {
+    public static boolean verify(final byte[] a, final int off) {
         final long tsc = getLongLE(a, off + OFF_TSC);
         final long stack = getLongLE(a, off + OFF_STACK);
         final int machine = getIntLE(a, off + OFF_MACHINE);
@@ -75,7 +75,7 @@ public final class Uid32ReaderArray {
     /**
      * Разбор + проверка за один проход.
      */
-    public static boolean readIntoChecked(byte[] a, int off, Uid32Fields out) {
+    public static boolean readIntoChecked(final byte[] a, final int off, final Uid32Fields out) {
         final long tsc = getLongLE(a, off + OFF_TSC);
         final long stack = getLongLE(a, off + OFF_STACK);
         final int machine = getIntLE(a, off + OFF_MACHINE);
@@ -94,19 +94,19 @@ public final class Uid32ReaderArray {
     /**
      * Разбор + проверка, кидает {@link IllegalArgumentException} при несоответствии.
      */
-    public static void readIntoOrThrow(byte[] a, int off, Uid32Fields out) {
+    public static void readIntoOrThrow(final byte[] a, final int off, final Uid32Fields out) {
         if (!readIntoChecked(a, off, out)) throw new IllegalArgumentException("UID32 mix mismatch (byte[])");
     }
 
     // --- быстрые LE-геттеры (без проверок границ) ---
-    private static int getIntLE(byte[] a, int p) {
+    private static int getIntLE(final byte[] a, final int p) {
         return (a[p] & 0xFF)
                 | ((a[p + 1] & 0xFF) << 8)
                 | ((a[p + 2] & 0xFF) << 16)
                 | ((a[p + 3] & 0xFF) << 24);
     }
 
-    private static long getLongLE(byte[] a, int p) {
+    private static long getLongLE(final byte[] a, final int p) {
         return ((long) (a[p] & 0xFF))
                 | ((long) (a[p + 1] & 0xFF) << 8)
                 | ((long) (a[p + 2] & 0xFF) << 16)

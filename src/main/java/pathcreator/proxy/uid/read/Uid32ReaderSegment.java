@@ -30,34 +30,34 @@ public final class Uid32ReaderSegment {
             JAVA_INT_UNALIGNED.withOrder(ByteOrder.nativeOrder());
 
     // точечные геттеры
-    public static long tsc(MemorySegment s, long o) {
+    public static long tsc(final MemorySegment s, final long o) {
         return s.get(L64, o + OFF_TSC);
     }
 
-    public static long stackPtr(MemorySegment s, long o) {
+    public static long stackPtr(final MemorySegment s, final long o) {
         return s.get(L64, o + OFF_STACK);
     }
 
-    public static int machineId(MemorySegment s, long o) {
+    public static int machineId(final MemorySegment s, final long o) {
         return s.get(I32, o + OFF_MACHINE);
     }
 
-    public static int coreId(MemorySegment s, long o) {
+    public static int coreId(final MemorySegment s, final long o) {
         return s.get(I32, o + OFF_CORE);
     }
 
-    public static int tid(MemorySegment s, long o) {
+    public static int tid(final MemorySegment s, final long o) {
         return s.get(I32, o + OFF_TID);
     }
 
-    public static int mix(MemorySegment s, long o) {
+    public static int mix(final MemorySegment s, final long o) {
         return s.get(I32, o + OFF_MIX);
     }
 
     /**
      * Разбор всех полей без проверки.
      */
-    public static void readInto(MemorySegment s, long o, Uid32Fields out) {
+    public static void readInto(final MemorySegment s, final long o, final Uid32Fields out) {
         out.tsc = s.get(L64, o + OFF_TSC);
         out.stackPtr = s.get(L64, o + OFF_STACK);
         out.machineId = s.get(I32, o + OFF_MACHINE);
@@ -69,7 +69,7 @@ public final class Uid32ReaderSegment {
     /**
      * Проверка {@code mix} без разборки.
      */
-    public static boolean verify(MemorySegment s, long o) {
+    public static boolean verify(final MemorySegment s, final long o) {
         final long tsc = s.get(L64, o + OFF_TSC);
         final long stack = s.get(L64, o + OFF_STACK);
         final int machine = s.get(I32, o + OFF_MACHINE);
@@ -82,7 +82,7 @@ public final class Uid32ReaderSegment {
     /**
      * Разбор + проверка за один проход.
      */
-    public static boolean readIntoChecked(MemorySegment s, long o, Uid32Fields out) {
+    public static boolean readIntoChecked(final MemorySegment s, final long o, final Uid32Fields out) {
         final long tsc = s.get(L64, o + OFF_TSC);
         final long stack = s.get(L64, o + OFF_STACK);
         final int machine = s.get(I32, o + OFF_MACHINE);
@@ -101,7 +101,7 @@ public final class Uid32ReaderSegment {
     /**
      * Разбор + проверка, кидает {@link IllegalArgumentException} при несоответствии.
      */
-    public static void readIntoOrThrow(MemorySegment s, long o, Uid32Fields out) {
+    public static void readIntoOrThrow(final MemorySegment s, final long o, final Uid32Fields out) {
         if (!readIntoChecked(s, o, out)) throw new IllegalArgumentException("UID32 mix mismatch (segment)");
     }
 }

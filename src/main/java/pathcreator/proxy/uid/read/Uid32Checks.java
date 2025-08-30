@@ -32,7 +32,7 @@ public final class Uid32Checks {
     /**
      * Пересчёт контрольной суммы {@code mix} из разобранных значений.
      */
-    public static int calcMix(long tsc, long stackPtr, int machineId, int coreId, int tid) {
+    public static int calcMix(final long tsc, final long stackPtr, final int machineId, final int coreId, final int tid) {
         return (int) (tsc ^ stackPtr
                 ^ (machineId & 0xFFFF_FFFFL)
                 ^ (coreId & 0xFFFF_FFFFL)
@@ -44,7 +44,7 @@ public final class Uid32Checks {
     /**
      * Проверка по MemorySegment (native order), без разборки.
      */
-    public static boolean verifyMix(MemorySegment s, long o) {
+    public static boolean verifyMix(final MemorySegment s, final long o) {
         final long tsc = s.get(L64, o + OFF_TSC);
         final long stack = s.get(L64, o + OFF_STACK);
         final int machine = s.get(I32, o + OFF_MACHINE);
@@ -57,7 +57,7 @@ public final class Uid32Checks {
     /**
      * Проверка по уже заполненным полям.
      */
-    public static boolean verifyFields(Uid32Fields f) {
+    public static boolean verifyFields(final Uid32Fields f) {
         return f.mix == calcMix(f.tsc, f.stackPtr, f.machineId, f.coreId, f.tid);
     }
 }
